@@ -10,10 +10,9 @@ class PollDetailQuestion extends Component {
     answerQuestion = (e) => {
         e.preventDefault();
         console.log("PollDetailQuestion: answerQuestion");
-        console.table(this.state.authedUser);
-        console.table(this.state.authedUserId)
+        console.table(this.state.value);
   
-        this.props.dispatch(saveAnswer(this.props.authedUserId, this.props.questionId, this.state.value));
+        this.props.dispatch(saveAnswer(this.props.authUserId, this.props.questionId, this.state.value));
 
     }
 
@@ -26,8 +25,6 @@ class PollDetailQuestion extends Component {
     }
 
     render() {
-        console.log("Poll Detail Question")
-        console.table(this.props)
         if (!this.props.questionId) {
             return <Redirect to="/nomatch" />
         }
@@ -37,8 +34,7 @@ class PollDetailQuestion extends Component {
         const optionOneCount = `${optionOne.votes.length} out of ${totalVotes} votes`;
         const optionTwoCount = `${optionTwo.votes.length} out of ${totalVotes} votes`;
         const avatarURLCss = `url(${avatarURL})`;
-        console.log("Poll Detail Question");
-        console.table(this.props);
+
         return (<div className="question">
             <div className="question-title">
                 <span> {username} asks:</span>
@@ -77,7 +73,7 @@ class PollDetailQuestion extends Component {
                                 <div style={{ width: optionTwoPercent + '%' }} />
                             </div>
                             <strong className="center">{optionTwoCount}</strong>
-
+                            
                         </div>
                     </div>}
             </div>
@@ -87,26 +83,26 @@ class PollDetailQuestion extends Component {
 
 function mapStateToProps(state, props) {
 
-    const authedUser = state.users[state.authedUser];
+    const authUser = state.users[state.authUser];
     const { id } = props.match.params;
     const question = state.questions[id];
 
     if (!question) {
         return {
-            authedUserId: authedUser.id,
+            authUserId: authUser.id,
             questionId: null
         };
     }
     const user = state.users[question.author];
     return {
-        authedUserId: authedUser,
+        authUserId: authUser.id,
         username: user.name,
         avatarURL: user.avatarURL,
         questionId: id,
         optionOne: { ...question.optionOne },
         optionTwo: { ...question.optionTwo },
         totalVotes: question.optionOne.votes.length + question.optionTwo.votes.length,
-        answer: authedUser.answers[question.id]
+        answer: authUser.answers[question.id]
     }
 }
 

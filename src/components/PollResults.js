@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Question from './answerQuestions';
+import Question from './Question';
 
 class PollResult extends Component {
     state = {
@@ -40,7 +40,7 @@ class PollResult extends Component {
 }
 
 function mapStateToProps(state) {
-    const user = state.users[state.authedUser];
+    const user = state.users[state.authUser];
 
     const answered = [...Object.keys(user.answers)]
         .sort((a, b) => state.questions[b].timestamp - state.questions[a].timestamp);

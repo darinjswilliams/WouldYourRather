@@ -5,6 +5,7 @@ export default class Nav extends Component  {
   render() {  
     const {loggedInUser} = this.props;
     const loggedIn = loggedInUser !== null;
+    console.log("Navs component")
     console.table(this.props)
   return (
         <nav className='nav'>

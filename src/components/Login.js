@@ -1,7 +1,7 @@
 import React, { Component }  from 'react';
 import logo from '../assets/logo.svg';
 import { connect } from 'react-redux';
-import { setAuthedUser } from '../actions/authedUsers';
+import { setAuthUser } from '../actions/authedUsers';
 import { withRouter } from 'react-router-dom'
 
 class Login extends Component {
@@ -9,9 +9,9 @@ class Login extends Component {
         user: null
     }
 
-    setAuthedUser = (e) => {
+    setAuthUser = (e) => {
         e.preventDefault()
-        this.props.dispatch(setAuthedUser(this.state.user));
+        this.props.dispatch(setAuthUser(this.state.user));
         const { from } = this.props.location.state || { from: { pathname: "/"}};
         this.props.history.replace(from);
     }
@@ -34,7 +34,7 @@ class Login extends Component {
                     alt={`Logo of react`}
                     className='logo'
                     />
-                    <form onSubmit={this.setAuthedUser}>
+                    <form onSubmit={this.setAuthUser}>
                     <select className="select" placeholder='Choose Name'
                      onChange={this.handleUser}>
                      <option name="none" key="none" value=""></option>

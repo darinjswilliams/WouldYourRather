@@ -1,6 +1,6 @@
 import React, { Component} from 'react';
 import '../index.css'
-import '../components/App.css';
+import './App.css';
 import Login from './Login';
 import NewQuestion from './NewQuestion';
 import LeaderBoard from './LeaderBoard';
@@ -9,7 +9,7 @@ import PollResult from './PollResults'
 import { connect } from 'react-redux';
 import { getInitialData } from '../actions/shared';
 import {Route, BrowserRouter as Router, Redirect, Switch } from 'react-router-dom';
-import { setAuthedUser } from '../actions/authedUsers';
+import { setAuthUser } from '../actions/authedUsers';
 import  NavSys from './Nav';
 import NoDataFound from './NoDataFound';
  
@@ -31,21 +31,19 @@ class App extends Component {
 )
 
   logout = () => {
-    this.props.dispatch(setAuthedUser(null));
+    this.props.dispatch(setAuthUser(null));
     return <Redirect to='/' />
   }
 
  render() {
-     console.table(this.props)
-      const { isLoggedIn, authedUser } = this.props;
+      const { isLoggedIn, authUser } = this.props;
       const { PrivateRoute } = this;
       
    return (
-   
-   <Router>
+            <Router>
                 <div>
                     <h3 className="center header"> React App </h3>
-                    <NavSys loggedInUser={authedUser} />
+                    <NavSys loggedInUser={authUser} />
                     <hr />
                     <div className="container center">
                         <Switch>
@@ -67,10 +65,13 @@ class App extends Component {
 
 
 function mapStateToProps(state) {
-  const authedUser = state.authedUser ? state.authedUser : null;
+  console.log("APPS mapStateToProps")
+  console.table(state.users)
+  console.table(state.authUser)
+  const authUser = state.authUser ? state.authUser : null;
   return{
-    authedUser,
-    isLoggedIn: !!authedUser
+    authUser,
+    isLoggedIn: !!authUser
   }
 }
 export default connect(mapStateToProps)(App)

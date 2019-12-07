@@ -6,8 +6,8 @@ import { Redirect } from 'react-router-dom';
 class NewQuestion extends Component {
 
     state = {
-        questionA: "",
-        questionB: "",
+        optionOne: "",
+        optionTwo: "",
         homeBase: false
     }
     handleChange = (e) => {
@@ -18,17 +18,17 @@ class NewQuestion extends Component {
 
     addQuestion = (e) => {
         e.preventDefault();
-        const { questionA, questionB } = this.state;
-        this.props.dispatch(saveQuestion(questionA, questionB, this.props.authedUser));
+        const { optionOne, optionTwo } = this.state;
+        this.props.dispatch(saveQuestion(optionOne, optionTwo, this.props.authUser));
         this.setState({
-            questionA: "",
-            questionB: "",
+            optionOne: "",
+            optionTwo: "",
             homeBase: true
         });
     }
 
     disabled = () => {
-        return !(this.state.questionA && this.state.questionB);
+        return !(this.state.optionOne && this.state.optionTwo);
     }
 
     render() {
@@ -36,16 +36,16 @@ class NewQuestion extends Component {
             return <Redirect to='/' />
         }
         return (
-            <form onSubmit={this.addQuestion} className='new-question'>
+            <form onSubmit={this.addQuestion} className='new-question'><center>
             <h3 className = "center header">New Question</h3>
                 <div className="new-question-body">
                     <p>Answer Question</p>
-                    <strong>Would you rather...</strong>
-                    <input type="text" value={this.state.questionA} name="questionA" placeholder="Enter Question A Information" onChange={this.handleChange} />
+                    <strong>Would you rather...</strong><br />
+                    <input type="text" size="70" value={this.state.optionOne} name="optionOne" placeholder="Enter Question A Information" onChange={this.handleChange} />
                     <span className="border-center"> or </span>
-                    <input type="text" value={this.state.questionB} name="questionB" placeholder="Enter Question B Information" onChange={this.handleChange} />
+                    <input type="text" size ="70" value={this.state.optionTwo} name="optionTwo" placeholder="Enter Question B Information" onChange={this.handleChange} />
                     <button disabled={this.disabled()} className="btn" type="submit">Submit Answer</button>
-                </div>
+                </div></center>
             </form>
         )
     }
@@ -53,7 +53,7 @@ class NewQuestion extends Component {
 
 function mapStateToProps(state){
     return {
-        authedUser: state.authedUser
+        authUser: state.authUser
     }
 }
 export default connect(mapStateToProps)(NewQuestion)

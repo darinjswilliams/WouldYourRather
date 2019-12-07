@@ -1,5 +1,6 @@
-import { receiveUsers } from '../actions/users'
-import { receiveQuestions } from '../actions/questions'
+import {showLoading, hideLoading } from 'react-redux-loading'
+import { receiveUsers } from './users'
+import { receiveQuestions } from './questions'
 import { _getUsers, _getQuestions, _saveQuestionAnswer, _saveQuestion } from '../utils/_DATA'
 
 export const RECEIVE_ANSWER = "RECEIVE_ANSWER";
@@ -9,36 +10,38 @@ export const GET_INITIAL_DATA = "GET_INITIAL_DATA";
 
 export function getInitialData() {
     return (dispatch) => {
+        dispatch(showLoading())
         return Promise.all([
             _getUsers(),
             _getQuestions()]
         ).then(([users, questions ]) => {
                 dispatch(receiveUsers(users));
                 dispatch(receiveQuestions(questions));
-            })
+                dispatch(hideLoading())
+            });
     }
 }
 
-export function saveAnswer(authedUserId, questionId, answerId) {
+export function saveAnswer(username, questionId, answerId) {
     return (dispatch) => {
         //TO ADD SHOWLOADING
-        console.log("saveAnswer");
-        console.log(authedUserId);
-        console.log(questionId);
-        console.log(answerId);
-        _saveQuestionAnswer(authedUserId, questionId, answerId).then(
+        dispatch(showLoading())
+        _saveQuestionAnswer(username, questionId, answerId).then(
             answer => {
-                dispatch(receiveAnswer(authedUserId, questionId, answerId))
+                dispatch(receiveAnswer(username, questionId, answerId))
+                dispatch(hideLoading())
             }); 
     }
 }
 
-export function saveQuestion(textQuestionOne, textQuestionTwo, author) {
+export function saveQuestion(optionOneText, optionTwoText, author) {
     return (dispatch) => {
         //todo showloading and hideloading
-        _saveQuestion({ textQuestionOne, textQuestionTwo, author}).then(
+        dispatch(showLoading())
+        _saveQuestion({ optionOneText, optionTwoText, author}).then(
             question => {
                 dispatch(receiveQuestion(question));
+                dispatch(hideLoading())
             }
         );
     }

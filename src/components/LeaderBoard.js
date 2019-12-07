@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import  CurrentLeader  from '../components/CurrentLeader';
+import  CurrentLeader  from './CurrentLeader';
 
 class LeaderBoard extends Component {
 
